@@ -1,0 +1,9 @@
+# Ignore all files
+*
+
+# But not these files...
+!*.go
+
+# Additionally, do not ignore the .gitignore file itself
+!.gitignore
+
