@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
 	"database/sql"
@@ -8,9 +8,9 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-func main() {
+func Spawn_database() {
 	// Datenbankverbindung öffnen oder erstellen
-	db, err := sql.Open("sqlite", "database.db")
+	db, err := sql.Open("sqlite", "data/database.db")
 	if err != nil {
 		log.Fatal(err)
 	}

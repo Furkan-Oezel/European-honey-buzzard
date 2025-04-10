@@ -1,4 +1,4 @@
-package main
+package observer
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/docker/docker/client"
 )
 
-func main() {
+func Ob() {
 	// Create a new Docker client
 	cli, err := client.NewClientWithOpts(client.FromEnv)
 	if err != nil {
