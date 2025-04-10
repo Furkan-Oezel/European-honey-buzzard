@@ -1,4 +1,4 @@
-package main
+package life_and_death
 
 import (
 	"log"
@@ -6,8 +6,8 @@ import (
 	"os/exec"
 )
 
-func main() {
-	cmd := exec.Command("./lsm_chmod") // replace with full path if needed
+func Spawn() {
+	cmd := exec.Command("/home/furkan/oth/XI/European-honey-buzzard/hitman/main/map_policy") // replace with full path if needed
 
 	// Pass through stdin, stdout, stderr
 	cmd.Stdin = os.Stdin

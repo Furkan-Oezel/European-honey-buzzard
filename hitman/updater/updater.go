@@ -1,4 +1,4 @@
-package main
+package updater
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ const (
 	map_key uint32 = 4
 )
 
-func main() {
+func Update() {
 	// Path where the eBPF map is pinned
 	mapPath := "/sys/fs/bpf/kernel_function/map_policy"
 
