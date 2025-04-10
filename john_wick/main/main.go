@@ -1,0 +1,13 @@
+package main
+
+import (
+	"fmt"
+	"john_wick/life_and_death"
+	"john_wick/updater"
+)
+
+func main() {
+	fmt.Println("hi from main")
+	life_and_death.Spawn()
+	updater.Update()
+}
