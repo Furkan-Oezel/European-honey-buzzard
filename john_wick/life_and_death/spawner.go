@@ -7,7 +7,7 @@ import (
 )
 
 func Spawn() {
-	cmd := exec.Command("/home/furkan/oth/XI/European-honey-buzzard/john_wick/arsenal/maps/map_policy") // replace with full path if needed
+	cmd := exec.Command("/home/furkan/oth/XI/European-honey-buzzard/john_wick/arsenal/lsm_modules/lsm_chmod") // replace with full path if needed
 
 	// Pass through stdin, stdout, stderr
 	cmd.Stdin = os.Stdin

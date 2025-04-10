@@ -8,6 +8,7 @@ import (
 
 func main() {
 	fmt.Println("hi from main")
-	life_and_death.Spawn()
+	//life_and_death.Spawn()
+	life_and_death.Kill()
 	updater.Update()
 }
