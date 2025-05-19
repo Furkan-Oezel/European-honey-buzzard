@@ -2,14 +2,23 @@ package observer
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 
 	"github.com/docker/docker/api/types/events"
 	"github.com/docker/docker/client"
+	_ "modernc.org/sqlite" // SQLite driver
 )
 
 func Ob() {
+	// open database
+	db, err := sql.Open("sqlite", "data/database.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
 	// Create a new Docker client
 	cli, err := client.NewClientWithOpts(client.FromEnv)
 	if err != nil {
@@ -23,16 +32,24 @@ func Ob() {
 	// Infinite loop to process events
 	for {
 		select {
-		// Handle new Docker events
 		case event := <-eventCh:
 			// Check if it's a container start event
 			if event.Type == events.ContainerEventType && event.Action == "start" {
-				fmt.Printf("New container started: ID=%s\n", event.Actor.ID[:12])
+				containerID := event.Actor.ID[:12]
+				fmt.Printf("New container started: ID=%s\n", containerID)
+
+				// Insert container ID into database
+				insertStmt := `INSERT OR IGNORE INTO containers (container_id) VALUES (?);`
+				_, err = db.Exec(insertStmt, containerID)
+				if err != nil {
+					log.Printf("error inserting container with id: %v", err)
+				} else {
+					fmt.Println("saved container id")
+				}
 			}
-		// Handle errors
 		case err := <-errCh:
 			if err != nil {
-				log.Fatalf("Error: %v", err) // Stop program on error
+				log.Fatalf("Error: %v", err)
 			}
 		}
 	}
