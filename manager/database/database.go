@@ -18,10 +18,16 @@ func Spawn_database() {
 
 	// Tabelle erstellen (falls nicht vorhanden)
 	createTable := `CREATE TABLE IF NOT EXISTS containers (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		container_id TEXT UNIQUE,
-		start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-	);`
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	container_id TEXT,
+	container_name TEXT,
+	image TEXT,
+	action TEXT,
+	event_type TEXT,
+	event_time INTEGER,
+	event_time_nano INTEGER,
+	start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );`
 	_, err = db.Exec(createTable)
 	if err != nil {
 		log.Fatal(err)
