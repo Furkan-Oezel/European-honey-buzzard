@@ -7,7 +7,7 @@
  * how to get this file: bpftool btf dump file /sys/kernel/btf/vmlinux format c
  * > vmlinux.h
  */
-#include "include_dir/vmlinux.h"
+#include "../include_dir/vmlinux.h"
 // add bpf helper functions (e.g bpf_map_lookup_elem(), bpf_map_update_elem())
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
