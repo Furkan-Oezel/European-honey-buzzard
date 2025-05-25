@@ -7,8 +7,13 @@ import (
 	"log"
 	"syscall"
 
+	"github.com/cilium/ebpf"
 	"github.com/docker/docker/client"
 	_ "modernc.org/sqlite"
+)
+
+const (
+	map_key uint32 = 0
 )
 
 func GetContainerCgroupID() {
@@ -56,4 +61,23 @@ func GetContainerCgroupID() {
 	}
 
 	fmt.Printf("🧠 Cgroup ID (inode): %d\n", stat.Ino)
+
+	// Path where the eBPF map is pinned
+	mapPath := "/sys/fs/bpf/kernel_function/map_policy"
+
+	// Open the pinned map
+	pinnedMap, err := ebpf.LoadPinnedMap(mapPath, nil)
+	if err != nil {
+		log.Fatalf("Error opening pinned map: %v", err)
+	}
+
+	mapValue := stat.Ino
+	// Update the map
+	if err := pinnedMap.Update(map_key, mapValue, ebpf.UpdateAny); err != nil {
+		log.Fatalf("Error updating map: %v", err)
+	}
+	log.Printf("Successfully wrote value %s to map key ", mapValue)
+
+	fmt.Println("Map updated successfully")
+
 }
