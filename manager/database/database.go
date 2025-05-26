@@ -1,22 +1,34 @@
 package database
 
 import (
+	// import generic database interface package for SQL databases
 	"database/sql"
-	"fmt"
 	"log"
-
+	/*
+	 * Import this package only for its side effects.
+	 * It's not used directly by me, I don't use something like sqlite.func(),
+	 * instead its init() function is called by Go.
+	 * This package registers itself as a driver with Go's database/sql package.
+	 */
 	_ "modernc.org/sqlite"
 )
 
 func Spawn_database() {
-	// Datenbankverbindung öffnen oder erstellen
+	// open database
 	db, err := sql.Open("sqlite", "data/database.db")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
-	// Tabelle erstellen (falls nicht vorhanden)
+	/*
+	 * This table has 10 columns and grows automatically(new rows) when a new entry is saved.
+	 * id: The column name.
+         * INTEGER: The data type. Stores whole numbers.
+         * PRIMARY KEY: Uniquely identifies each row in the table.
+         * AUTOINCREMENT: Automatically increases the id with each new row.
+	 * TIMESTAMP DEFAULT CURRENT_TIMESTAMP: If no value is provided, insert the current time by default.
+	 */
 	createTable := `CREATE TABLE IF NOT EXISTS containers (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	container_id TEXT,
@@ -32,35 +44,5 @@ func Spawn_database() {
 	_, err = db.Exec(createTable)
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	fmt.Println("✅ SQLite-Datenbank und Tabelle initialisiert")
-
-	// Beispiel-Daten einfügen
-	//	containerID := "abc123def456"
-	//	insertStmt := `INSERT OR IGNORE INTO containers (container_id) VALUES (?);`
-	//	_, err = db.Exec(insertStmt, containerID)
-	//	if err != nil {
-	//		log.Fatalf("❌ Fehler beim Einfügen: %v", err)
-	//	}
-	//	fmt.Println("📦 Beispiel-Container-ID eingefügt:", containerID)
-
-	// Daten auslesen
-	rows, err := db.Query(`SELECT id, container_id, start_time FROM containers;`)
-	if err != nil {
-		log.Fatalf("❌ Fehler beim Auslesen der Datenbank: %v", err)
-	}
-	defer rows.Close()
-
-	fmt.Println("📋 Aktueller Inhalt der Tabelle:")
-	for rows.Next() {
-		var id int
-		var cid string
-		var startTime string
-		err := rows.Scan(&id, &cid, &startTime)
-		if err != nil {
-			log.Fatalf("❌ Fehler beim Auslesen einer Zeile: %v", err)
-		}
-		fmt.Printf("  🆔 %d | 🐳 %s | 🕒 %s\n", id, cid, startTime)
 	}
 }
