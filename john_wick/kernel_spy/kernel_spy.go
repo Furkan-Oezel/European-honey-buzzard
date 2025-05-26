@@ -63,7 +63,7 @@ func GetContainerCgroupID() {
 	fmt.Printf("🧠 Cgroup ID (inode): %d\n", stat.Ino)
 
 	// Path where the eBPF map is pinned
-	mapPath := "/sys/fs/bpf/kernel_function/map_policy"
+	mapPath := "/sys/fs/bpf/sys_execve/map_policy"
 
 	// Open the pinned map
 	pinnedMap, err := ebpf.LoadPinnedMap(mapPath, nil)
