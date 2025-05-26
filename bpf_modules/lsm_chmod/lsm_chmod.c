@@ -12,6 +12,7 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 #include <linux/errno.h>
+// #include <stdint.h>
 
 char _license[] SEC("license") = "GPL";
 
@@ -46,15 +47,20 @@ SEC("lsm/path_chmod")
 
 int BPF_PROG(path_chmod, const struct path *path, umode_t mode) {
   int key = 0;
-  int *value = bpf_map_lookup_elem(&map_policy, &key);
+  __u64 *value = bpf_map_lookup_elem(&map_policy, &key);
   if (value)
-    bpf_printk("Value read from the map: '%s'\n", value);
+    bpf_printk("Value read from the map: '%llu'\n", *value);
   else
     bpf_printk("Failed to read value from the map\n");
 
   ///
   __u64 cgrp_id = bpf_get_current_cgroup_id();
   bpf_printk("lets gooo cgroup_id: %llu\n", cgrp_id);
+  if (cgrp_id == *value) {
+    bpf_printk("lets gooo cgroup_id: %llu\n", cgrp_id);
+    bpf_printk("chmod not allowed");
+    return -EPERM;
+  }
   ///
   // return -EPERM;
   return 0;
