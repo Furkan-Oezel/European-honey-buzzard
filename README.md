@@ -15,7 +15,7 @@ cd European-honey-buzzard
 
 ## How to build bpf modules
 
-cd into a subdirectory(e.g. lsm_chmod):
+cd into a subdirectory (e.g. lsm_chmod):
 
 ```bash
 cd bpf_modules/lsm_chmod
