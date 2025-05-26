@@ -24,6 +24,7 @@ func Spawn_database() {
 	image TEXT,
 	action TEXT,
 	event_type TEXT,
+	cgroup_id TEXT,
 	event_time INTEGER,
 	event_time_nano INTEGER,
 	start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -36,13 +37,13 @@ func Spawn_database() {
 	fmt.Println("✅ SQLite-Datenbank und Tabelle initialisiert")
 
 	// Beispiel-Daten einfügen
-	containerID := "abc123def456"
-	insertStmt := `INSERT OR IGNORE INTO containers (container_id) VALUES (?);`
-	_, err = db.Exec(insertStmt, containerID)
-	if err != nil {
-		log.Fatalf("❌ Fehler beim Einfügen: %v", err)
-	}
-	fmt.Println("📦 Beispiel-Container-ID eingefügt:", containerID)
+	//	containerID := "abc123def456"
+	//	insertStmt := `INSERT OR IGNORE INTO containers (container_id) VALUES (?);`
+	//	_, err = db.Exec(insertStmt, containerID)
+	//	if err != nil {
+	//		log.Fatalf("❌ Fehler beim Einfügen: %v", err)
+	//	}
+	//	fmt.Println("📦 Beispiel-Container-ID eingefügt:", containerID)
 
 	// Daten auslesen
 	rows, err := db.Query(`SELECT id, container_id, start_time FROM containers;`)
