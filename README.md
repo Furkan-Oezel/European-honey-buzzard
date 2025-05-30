@@ -165,16 +165,28 @@ This command updates a specific entry in the eBPF map located at `/sys/fs/bpf/ke
 
 ## SQLite CLI
 
-How to view the database:
+How to view container_logs database:
 
 ```bash
-sqlite3 manager/data/database.db
+sqlite3 manager/data/container_logs.db
 ```
 
 Then run inside the prompt:
 
 ```bash
-SELECT * FROM containers;
+SELECT * FROM container_logs;
+```
+
+How to view filtered_logs database:
+
+```bash
+sqlite3 manager/data/filtered_logs.db
+```
+
+Then run inside the prompt:
+
+```bash
+SELECT * FROM filtered_logs;
 ```
 
 To quit the SQLite prompt:
