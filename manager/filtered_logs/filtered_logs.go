@@ -68,19 +68,31 @@ func Filter() {
 			continue
 		}
 
-		// try to insert the data as a new entry
-		// if the entry with that container id already exists, update it instead
-		insertOrUpdate := `
-			INSERT INTO filtered_logs (container_id, action)
-			VALUES (?, ?)
-			ON CONFLICT(container_id) DO UPDATE SET action=excluded.action;
-		`
+		if action == "destroy" {
+			// delete the entry if the last action is destroy
+			deleteStmt := `DELETE FROM filtered_logs WHERE container_id = ?`
+			_, err := filteredDB.Exec(deleteStmt, containerID)
+			if err != nil {
+				log.Printf("Error deleting container %s: %v", containerID, err)
+			} else {
+				fmt.Printf("Deleted container %s (action=destroy)\n", containerID[:12])
+			}
 
-		_, err := filteredDB.Exec(insertOrUpdate, containerID, action)
-		if err != nil {
-			log.Printf("Error inserting/updating for %s: %v", containerID, err)
 		} else {
-			fmt.Printf("Successfully updated status: %s → %s\n", containerID[:12], action)
+			// try to insert the data as a new entry
+			// if the entry with that container id already exists, update it instead
+			insertOrUpdate := `
+				INSERT INTO filtered_logs (container_id, action)
+				VALUES (?, ?)
+				ON CONFLICT(container_id) DO UPDATE SET action=excluded.action;
+			`
+
+			_, err := filteredDB.Exec(insertOrUpdate, containerID, action)
+			if err != nil {
+				log.Printf("Error inserting/updating for %s: %v", containerID, err)
+			} else {
+				fmt.Printf("Successfully updated status: %s → %s\n", containerID[:12], action)
+			}
 		}
 	}
 }
