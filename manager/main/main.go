@@ -1,15 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"manager/database"
-	"manager/filter"
+	"manager/container_logs"
+	"manager/filtered_logs"
 	"manager/observer"
+	"time"
 )
 
 func main() {
-	fmt.Println("hi from main")
-	filter.Spawn_filter()
-	database.Spawn_database()
-	observer.Ob()
+	container_logs.Spawn_container_logs()
+	filtered_logs.Spawn_filtered_logs()
+
+	go observer.Observe()
+
+	go func() {
+		for {
+			filtered_logs.Filter()
+			time.Sleep(5 * time.Second)
+		}
+	}()
+
+	// prevent main() from an immediate stop
+	select {}
 }
