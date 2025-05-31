@@ -26,7 +26,7 @@ func main() {
 		log.Fatalf("failed to remove memory lock: %v", err)
 	}
 
-	fn := "sys_execve"
+	fn := "maps"
 
 	pinPath := path.Join(bpfFSPath, fn)
 	if err := os.MkdirAll(pinPath, os.ModePerm); err != nil {

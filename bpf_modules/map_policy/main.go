@@ -26,7 +26,7 @@ func main() {
 	}
 
 	// Name of the kernel function to trace.
-	kernel_function := "kernel_function"
+	kernel_function := "maps"
 
 	pinPath := path.Join(bpf_fs_path, kernel_function)
 	if err := os.MkdirAll(pinPath, os.ModePerm); err != nil {
