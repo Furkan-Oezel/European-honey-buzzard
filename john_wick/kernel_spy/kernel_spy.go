@@ -139,11 +139,10 @@ func GetContainerCgroupIDs() {
 				continue
 				/*
 				 * if no cgroup id was found:
-				 * container id exists in the filtered_logs database
-				 * yet there is no cgroup id
-				 * -> container stopped running (exit) but was not removed (with docker rm)
 				 * -> container id is still saved in filtered_logs database
-				 * but since it is not running, the container has no process id and hence no cgroup id
+				 * -> container stopped running (exit) but was not removed (with docker rm)
+				 * -> process id is 0 and the code line "cgroupPath := fmt.Sprintf("/proc/%d/root/sys/fs/cgroup", inspect.State.Pid)" does not work
+				 * -> cgroup still exists though but is not retrievable through my function
 				 */
 			}
 
@@ -184,9 +183,9 @@ func GetContainerCgroupIDs() {
 			// also discard the value of the lookup (_), since it is only an empty struct
 			if _, stillPresent := presentIDs[nth_containerID]; !stillPresent {
 				if err := pinnedMap.Delete(key); err != nil {
-					log.Printf("⚠️ Failed to delete key %d for container %s: %v", key, nth_containerID[:12], err)
+					log.Printf("Failed to delete key %d for container %s: %v", key, nth_containerID[:12], err)
 				} else {
-					log.Printf("🗑️ Removed key %d (container %s) from eBPF map", key, nth_containerID[:12])
+					log.Printf("Removed key %d (container %s) from eBPF map", key, nth_containerID[:12])
 				}
 				// also delete the container id from the Go map
 				delete(current_bpf_map_entries, nth_containerID)
