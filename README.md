@@ -144,7 +144,7 @@ This command dumps the contents of the eBPF map located at `/sys/fs/bpf/kernel_f
 ### 3. Listing BPF Filesystem Contents
 
 ```bash
-sudo ls -lha /sys/fs/bpf
+sudo ls -lha /sys/fs/bpf/maps
 ```
 
 **Description:**  
