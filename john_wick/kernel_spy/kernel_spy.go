@@ -13,7 +13,7 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-const mapPath = "/sys/fs/bpf/maps/map_policy"
+const mapPath = "/sys/fs/bpf/maps/map_container_cgroup_ids"
 
 func get_cgroupDIR_inode_number(containerIDs []string) map[string]uint64 {
 	// establish docker client

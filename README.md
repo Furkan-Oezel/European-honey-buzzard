@@ -133,7 +133,7 @@ This command provides a real-time stream of kernel trace events from the ftrace 
 ### 2. Dumping an eBPF Map
 
 ```bash
-sudo bpftool map dump pinned /sys/fs/bpf/maps/map_policy
+sudo bpftool map dump pinned /sys/fs/bpf/maps/map_container_cgroup_ids
 ```
 
 **Description:**  

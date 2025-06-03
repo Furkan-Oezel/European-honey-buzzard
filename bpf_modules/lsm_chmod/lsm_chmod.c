@@ -14,7 +14,7 @@ struct {
   // max 64 docker containers can be observed
   __uint(max_entries, 64);
   __uint(pinning, LIBBPF_PIN_BY_NAME);
-} map_policy SEC(".maps");
+} map_container_cgroup_ids SEC(".maps");
 
 SEC("lsm/path_chmod")
 int BPF_PROG(path_chmod, const struct path *path, umode_t mode) {
@@ -27,7 +27,7 @@ int BPF_PROG(path_chmod, const struct path *path, umode_t mode) {
 #pragma unroll
   for (int i = 0; i < 64; i++) {
     key = i;
-    value = bpf_map_lookup_elem(&map_policy, &key);
+    value = bpf_map_lookup_elem(&map_container_cgroup_ids, &key);
     if (!value)
       continue;
 

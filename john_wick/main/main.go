@@ -5,7 +5,6 @@ import (
 	//	"john_wick/spawner"
 	//	"log"
 	//
-	// "john_wick/updater"
 )
 
 func main() {
@@ -14,6 +13,4 @@ func main() {
 	//	if err != nil {
 	//		log.Fatal(err)
 	//	}
-
-	//updater.Update()
 }
