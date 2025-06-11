@@ -115,6 +115,12 @@ Run that image as a container in an interactive terminal with sudo rights:
 docker run -it --privileged vergil-docker
 ```
 
+Look for veth interface on host (second part of the veth pair, the first part of this pair is eth0 inside the container)
+
+```bash
+ip link show type veth
+```
+
 ## Debugging eBPF Programs
 
 The following commands are useful for inspecting and modifying eBPF maps that are pinned in the BPF filesystem. 
