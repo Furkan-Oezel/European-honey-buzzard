@@ -23,11 +23,12 @@ func Spawn_container_logs() {
 	defer db.Close()
 
 	/*
-	 * This table has 9 columns and grows automatically(new rows) when a new entry is saved.
+	 * This table has 10 columns and grows automatically(new rows) when a new entry is saved.
 	 * id: The column name.
 	 * INTEGER: The data type. Stores whole numbers.
 	 * PRIMARY KEY: Uniquely identifies each row in the table.
 	 * AUTOINCREMENT: Automatically increases the id with each new row.
+	 * veth: (virtual Ethernet) is a virtual network interface pair used to connect a Docker container to the host network or to another container.
 	 * TIMESTAMP DEFAULT CURRENT_TIMESTAMP: If no value is provided by observer.go, insert the current time by default.
 	 */
 	createTable := `CREATE TABLE IF NOT EXISTS container_logs (
@@ -39,6 +40,7 @@ func Spawn_container_logs() {
 	event_type TEXT,
 	event_time INTEGER,
 	event_time_nano INTEGER,
+	veth TEXT,
 	start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );`
 

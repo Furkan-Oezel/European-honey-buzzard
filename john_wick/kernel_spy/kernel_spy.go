@@ -52,7 +52,7 @@ func get_cgroupDIR_inode_number(containerIDs []string) map[string]uint64 {
 		// call a syscall on the cgroup path
 		// -> stores metadata like Ino (inode number) into the variable stat
 		if err := syscall.Stat(cgroupPath, &stat); err != nil {
-			log.Printf("⚠️ Stat failed for %s: %v", cgroupPath, err)
+			log.Printf("Stat failed for %s: %v", cgroupPath, err)
 			continue
 		}
 
