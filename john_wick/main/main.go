@@ -4,6 +4,7 @@ import (
 	"john_wick/kernel_spy"
 	"john_wick/spawner"
 	"log"
+	"time"
 )
 
 func main() {
@@ -11,6 +12,7 @@ func main() {
 		"/home/furkan/oth/XI/European-honey-buzzard/john_wick/arsenal/lsm_modules/lsm_chmod",
 		"/home/furkan/oth/XI/European-honey-buzzard/john_wick/arsenal/lsm_modules/lsm_rmdir",
 		"/home/furkan/oth/XI/European-honey-buzzard/john_wick/arsenal/lsm_modules/lsm_file_permission",
+		"/home/furkan/oth/XI/European-honey-buzzard/john_wick/arsenal/firewall_modules/firewall_container",
 	}
 
 	for _, path := range paths {
@@ -21,6 +23,9 @@ func main() {
 		}(path)
 	}
 
+	// Temporary solution to fix the race condition between spawning LSM modules (which create the map)
+	// and calling kernel_spy.GetContainerCgroupIDs() (which tries to open it).
+	time.Sleep(10 * time.Second)
 	kernel_spy.GetContainerCgroupIDs()
 
 	// keep Goroutines alive by blocking main

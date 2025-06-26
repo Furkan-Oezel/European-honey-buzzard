@@ -103,7 +103,7 @@ func main() {
 	defer objs.Close()
 
 	// open filtered_logs database
-	db, err := sql.Open("sqlite", "../../manager/data/filtered_logs.db")
+	db, err := sql.Open("sqlite", "../manager/data/filtered_logs.db")
 	if err != nil {
 		log.Fatalf("opening filtered_logs.db: %v", err)
 	}
@@ -122,7 +122,9 @@ func main() {
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt)
 
-	fmt.Println("Dynamic firewall_container running — press Ctrl+C to stop")
+	log.Printf("<<<<--------------------------------------------------------->>>>")
+	log.Printf("                 successfully loaded firewall_container")
+	log.Printf("<<<<--------------------------------------------------------->>>>")
 
 	for {
 		select {
