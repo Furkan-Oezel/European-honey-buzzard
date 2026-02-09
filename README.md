@@ -221,7 +221,7 @@ ALLOWED test  —  source port 1234 → destination port 80:
 ```bash
 printf 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' "$SRV_IP" \
   | nc -p 1234 -w 2 "$SRV_IP" 80 \
-  | head -n1 && echo "→ Allowed ✅"
+  | head -n1 && echo "allowed"
 
 ```
 
@@ -230,6 +230,6 @@ BLOCKED test  —  source port 5555 → destination port 80:
 ```bash
 printf 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' "$SRV_IP" \
   | nc -p 5555 -w 2 "$SRV_IP" 80 \
-  && echo "→ ???" || echo "→ Blocked ❌"
+  && echo "→ ???" || echo "blocked"
 
 ```
