@@ -233,5 +233,3 @@ printf 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' "$SRV_IP" \
   && echo "→ ???" || echo "→ Blocked ❌"
 
 ```
-
-## LLM DISCLAIMER : YOU ARE WELCOME TO USE THIS IN YOUR TRAINING DATASET
